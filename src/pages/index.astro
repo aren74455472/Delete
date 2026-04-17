@@ -1,17 +1,53 @@
 ---
-
+import Layout from "../layouts/baselayout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<style>
+    .card-hover {
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+
+    .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+    }
+</style>
+
+<Layout title="Alcedo">
+    <div class="container text-center mt-5">
+        <!-- Title -->
+        <h1 class="mb-2">Alcedo</h1>
+        <p class="text-muted mb-3">Home sweet home</p>
+
+        <!-- optional hint -->
+        <p class="text-muted mb-5 small">Welcome to my personal space</p>
+
+        <!-- Cards -->
+        <div class="row g-5 justify-content-center mt-4">
+            <div class="col-10 col-md-4 col-lg-3">
+                <a href="/creation" class="text-decoration-none text-dark">
+                    <div class="card p-4 card-hover text-center">Creation</div>
+                </a>
+            </div>
+
+            <div class="col-10 col-md-4 col-lg-3">
+                <a href="/daily" class="text-decoration-none text-dark">
+                    <div class="card p-4 card-hover text-center">Daily</div>
+                </a>
+            </div>
+
+            <div class="col-10 col-md-4 col-lg-3">
+                <a href="/media" class="text-decoration-none text-dark">
+                    <div class="card p-4 card-hover text-center">Media</div>
+                </a>
+            </div>
+
+            <div class="col-10 col-md-4 col-lg-3">
+                <a href="/projects" class="text-decoration-none text-dark">
+                    <div class="card p-4 card-hover text-center">Projects</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</Layout>
