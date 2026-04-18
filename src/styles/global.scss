@@ -1,0 +1,10 @@
+// 以后你可以在这里定义全站字体
+$font-family-sans-serif: "Helvetica Neue", Arial, sans-serif;
+
+// 引入 Bootstrap
+@import "bootstrap/scss/bootstrap";
+
+// 你的自定义样式
+body {
+    background-color: #f8f9fa;
+}

@@ -1,8 +1,49 @@
 ---
-import Layout from "../layouts/baselayout.astro";
+// src/pages/creation.astro
+import { getCollection } from "astro:content";
+
+// 1. 尝试抓取
+const allPosts = await getCollection("posts");
+
+// 2. 获取这个项目的物理路径（仅用于调试）
+const debugPath = process.cwd();
 ---
 
-<Layout title="Creation">
-    <h1>Creation</h1>
-    <p>这里是产出</p>
-</Layout>
+<div
+    style="background: #fff5f5; border: 2px solid #ff6b6b; padding: 20px; color: #c92a2a;"
+>
+    <h3>🛠️ 诊断实验室</h3>
+    <ul>
+        <li>当前项目根目录: <code>{debugPath}</code></li>
+        <li>尝试抓取的集合名: <strong>posts</strong></li>
+        <li>
+            最终抓取到的文章数: <strong style="font-size: 2rem;"
+                >{allPosts.length}</strong>
+        </li>
+    </ul>
+
+    {
+        allPosts.length === 0 && (
+            <div style="margin-top: 10px; color: #000;">
+                <p>
+                    💡 <strong>如果依然是 0，请检查：</strong>
+                </p>
+                <ol>
+                    <li>
+                        你的 Markdown 文件后缀是否是 <code>.md</code>？（不能是
+                        .txt 或 .docx）
+                    </li>
+                    <li>
+                        文件头部 Frontmatter 是否用 <code>---</code>{" "}
+                        开头和结尾？
+                    </li>
+                    <li>
+                        你的文件夹层级是不是{" "}
+                        <code>src/content/posts/xxx.md</code>
+                        ？（中间没有多余文件夹）
+                    </li>
+                </ol>
+            </div>
+        )
+    }
+</div>

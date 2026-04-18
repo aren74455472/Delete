@@ -1,53 +1,61 @@
 ---
-import Layout from "../layouts/baselayout.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SmartBadge from "../components/SmartBadge.astro";
+import HeroCard from "../components/HeroCard.astro"; // 引入新套娃
+import { getCollection } from "astro:content";
+import { HERO_SECTIONS } from "../content.consts"; // 引入数据
+
+const allPosts = await getCollection("posts");
+const recentUpdates = allPosts
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .slice(0, 5);
 ---
 
-<style>
-    .card-hover {
-        transition: all 0.2s ease;
-        cursor: pointer;
-    }
+<BaseLayout title="首页 | Solar Spiral">
+    <header class="py-5 mb-5 bg-light border-bottom">
+        <div class="container text-center">
+            <h1 class="display-3 fw-bold">Solar Spiral</h1>
+            <p class="text-muted">欢迎来到我的个人世界记录空间</p>
+        </div>
+    </header>
 
-    .card-hover:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
-    }
-</style>
+    <div class="container">
+        <div class="row g-4 mb-5">
+            {
+                HERO_SECTIONS.map((item) => (
+                    <div class="col-md-3 col-sm-6">
+                        <HeroCard {...item} />
+                    </div>
+                ))
+            }
+        </div>
 
-<Layout title="Alcedo">
-    <div class="container text-center mt-5">
-        <!-- Title -->
-        <h1 class="mb-2">Alcedo</h1>
-        <p class="text-muted mb-3">Home sweet home</p>
-
-        <!-- optional hint -->
-        <p class="text-muted mb-5 small">Welcome to my personal space</p>
-
-        <!-- Cards -->
-        <div class="row g-5 justify-content-center mt-4">
-            <div class="col-10 col-md-4 col-lg-3">
-                <a href="/creation" class="text-decoration-none text-dark">
-                    <div class="card p-4 card-hover text-center">Creation</div>
-                </a>
-            </div>
-
-            <div class="col-10 col-md-4 col-lg-3">
-                <a href="/daily" class="text-decoration-none text-dark">
-                    <div class="card p-4 card-hover text-center">Daily</div>
-                </a>
-            </div>
-
-            <div class="col-10 col-md-4 col-lg-3">
-                <a href="/media" class="text-decoration-none text-dark">
-                    <div class="card p-4 card-hover text-center">Media</div>
-                </a>
-            </div>
-
-            <div class="col-10 col-md-4 col-lg-3">
-                <a href="/projects" class="text-decoration-none text-dark">
-                    <div class="card p-4 card-hover text-center">Projects</div>
-                </a>
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mb-4">最新动态 / Updates</h3>
+                <div class="list-group shadow-sm">
+                    {
+                        recentUpdates.map((post) => (
+                            <div class="list-group-item p-3">
+                                <small class="text-muted">
+                                    {post.data.pubDate.toLocaleDateString()}
+                                </small>
+                                <div class="d-flex align-items-center mt-1">
+                                    {post.data.tags.map((tag) => (
+                                        <SmartBadge name={tag} />
+                                    ))}
+                                    <a
+                                        href={`/posts/${post.slug}`}
+                                        class="ms-2 text-dark text-decoration-none fw-bold"
+                                    >
+                                        {post.data.title}
+                                    </a>
+                                </div>
+                            </div>
+                        ))
+                    }
+                </div>
             </div>
         </div>
     </div>
-</Layout>
+</BaseLayout>
